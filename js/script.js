@@ -3,6 +3,7 @@ let input = document.querySelector('input[name=tarefa]')
 let btn = document.querySelector('#botao')
 
 let lista = document.querySelector('#lista')
+let card = document.querySelector('.card')
 
 
 let tarefas = [
@@ -22,6 +23,11 @@ function renderizarTarefas(){
 
         //adicionar classe no item
         itemLista.setAttribute('class', 'list-group-item list-group-item-action');
+
+        //adicionar evento 
+        itemLista.onclick = function() {
+            deletarTarefa(this)
+        }
 
         //criar um texto
         let itemTexto = document.createTextNode(tarefa)
@@ -47,21 +53,42 @@ btn.onclick = function() {
     
         //Limpar o input
         input.value = ''
+
+        //limpar mensgens de erro (spans)
+        removerSpans();
         
     }else{
-        let card = document.querySelector('.card')
+        removerSpans();
+
         let span = document.createElement('span')
         span.setAttribute('class', 'alert alert-warning')
 
         let msg = document.createTextNode('Você precisa informar a tarefa!')
         span.appendChild(msg)
         card.appendChild(span)
-    }
+         //limpar mensgens de erro (spans)
+         
+         
+        }
     
 }
 
 function removerSpans(){
-    let spans = document.querySelectorAll('.span')
+    let spans = document.querySelectorAll('span')
+    
+    
+    for(let i = 0; i < spans.length; i++){
+        card.removeChild(spans[i]);
+    }
+
+}
+
+function deletarTarefa(tar) {
+    //remove a tarefa do array
+    tarefas.splice(tarefas.indexOf(tar.textContent),1)
+
+    //renderiza novamente a tela
+    renderizarTarefas()
 }
 
 
